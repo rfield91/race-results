@@ -1,8 +1,9 @@
-import { defineConfig, globalIgnores } from "eslint/config";
+import eslint from '@eslint/js';
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import { defineConfig, globalIgnores } from "eslint/config";
 
-const eslintConfig = defineConfig([
+export default defineConfig([
   ...nextVitals,
   ...nextTs,
   // Override default ignores of eslint-config-next.
@@ -13,6 +14,27 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
-]);
+  eslint.configs.recommended,
+  {
+    rules: {
+      "no-console": [
+        "warn",
+        {
+          allow: ["error", "warn"]
+        }
+      ],
+      "curly": "error",
+      'prefer-template': 'error',
 
-export default eslintConfig;
+      'spaced-comment': [
+        'error',
+        'always',
+        {
+          markers: ['/'],
+        },
+      ],
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off"
+    }
+  }
+]);
