@@ -1,0 +1,14 @@
+[
+    {
+        "name": "NER",
+        "slug": "ner"
+    },
+    {
+        "name": "NE-SVT",
+        "slug": "ne-svt"
+    },
+    {
+        "name": "Boston BMW",
+        "slug": "boston-bmw"
+    }
+]
