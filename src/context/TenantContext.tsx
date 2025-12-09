@@ -1,28 +1,25 @@
 "use client";
 
+import { Tenant } from "@/lib/getTenant";
 import React, { createContext, useContext } from "react";
 
 export type TenantContextType = {
-    slug: string;
-    isGlobal: boolean;
+    tenant: Tenant
 };
 
-const TenantContext = createContext<TenantContextType | null>(null);
+const TenantContext = createContext<Tenant | null>(null);
 
 export function TenantProvider({
-    children,
-    slug
+    tenant,
+    children
 }: {
-    children: React.ReactNode,
-    slug: string
+    tenant: Tenant,
+    children: React.ReactNode
 }) {
     return <TenantContext.Provider
-        value={{
-            slug,
-            isGlobal: slug === "global"
-        }}>
+        value={tenant}>
         {children}
-    </TenantContext.Provider>
+    </TenantContext.Provider>;
 }
 
 export function useTenant() {

@@ -6,12 +6,10 @@ import { orgs } from "./schema";
 async function main() {
     await db.delete(orgs);
 
-    const createOrgs = await db
+    await db
         .insert(orgs)
         .values((await import("@/db/seed-data/orgs.json")).default)
         .returning();
-
-    console.log(createOrgs);
 }
 
 main();
