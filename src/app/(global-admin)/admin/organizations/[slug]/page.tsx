@@ -1,5 +1,5 @@
 import { LinkButton } from "@/components/link-button/link-button";
-import { getOrganization } from "@/lib/organizations/get-organization";
+import { organizationService } from "@/db/services/organizations/organization.service";
 import { ArrowLeft } from "lucide-react";
 
 export default async function Page({
@@ -8,7 +8,7 @@ export default async function Page({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const org = await getOrganization(slug);
+    const org = await organizationService.getOrganizationBySlug(slug);
 
     return (
         <div>

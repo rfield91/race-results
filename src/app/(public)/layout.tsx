@@ -1,4 +1,5 @@
-import { getUser } from "@/lib/users/get-user";
+import { userService } from "@/db/services/users/user.service";
+import { ROLES } from "@/dto/users";
 import {
     SignedIn,
     SignedOut,
@@ -14,7 +15,7 @@ export default async function GlobalLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const user = await getUser();
+    const user = await userService.getCurrentUser();
 
     return (
         <div className="flex flex-col gap-4">
@@ -31,7 +32,7 @@ export default async function GlobalLayout({
                 <SignedIn>
                     <UserButton />
                 </SignedIn>
-                {user?.assignedRoles.find((r) => r.role === "admin") ? (
+                {user?.roles.find((r) => r === ROLES.admin) ? (
                     <div>
                         <Link href={"/admin"}>Admin</Link>
                     </div>

@@ -7,11 +7,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { getUsers } from "@/lib/users/get-users";
+import { userService } from "@/db/services/users/user.service";
 import { PencilIcon } from "lucide-react";
 
 export default async function Page() {
-    const users = await getUsers();
+    const users = await userService.getAllUsers();
 
     return (
         <div className="w-full flex flex-col gap-4">
@@ -30,9 +30,7 @@ export default async function Page() {
                         <TableRow key={user.userId}>
                             <TableCell>{user.displayName}</TableCell>
                             <TableCell>
-                                {user.assignedRoles
-                                    .map((r) => r.role)
-                                    .join(", ")}
+                                {user.roles.map((r) => r).join(", ")}
                             </TableCell>
                             <TableCell className="flex justify-end">
                                 <LinkButton

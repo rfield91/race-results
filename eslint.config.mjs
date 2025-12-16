@@ -39,6 +39,15 @@ export default defineConfig([
             "react/react-in-jsx-scope": "off",
             semi: ["error", "always"],
             "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                {
+                    argsIgnorePattern: "^_",
+                    varsIgnorePattern: "^_",
+                    ignoreRestSiblings: true,
+                },
+            ],
         },
     },
     prettier,

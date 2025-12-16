@@ -8,7 +8,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Organization } from "@/types/organizations";
+import { Organization } from "@/dto/organizations";
 import { ReactNode, useActionState } from "react";
 
 const initialState = {
@@ -40,7 +40,7 @@ export const ManageOrgDialog = ({
                     )}
 
                     {org && (
-                        <input type="hidden" name="org-id" value={org.org_id} />
+                        <input type="hidden" name="org-id" value={org.orgId} />
                     )}
 
                     <input

@@ -4,7 +4,7 @@ import { createdAt, deletedAt, updatedAt } from "../utils/columns";
 export const orgs = pgTable(
     "orgs",
     {
-        org_id: uuid("id").primaryKey().defaultRandom(),
+        orgId: uuid("id").primaryKey().defaultRandom(),
         name: text("name").unique().notNull(),
         slug: text("slug").unique().notNull(),
         createdAt: createdAt,

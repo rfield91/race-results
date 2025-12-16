@@ -8,11 +8,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { getOrganizations } from "@/lib/organizations/get-organizations";
+import { organizationService } from "@/db/services/organizations/organization.service";
 import { PlusIcon } from "lucide-react";
 
 export default async function Page() {
-    const orgs = await getOrganizations();
+    const orgs = await organizationService.getAllOrganizations();
 
     return (
         <div className="w-full flex flex-col gap-4">
@@ -37,7 +37,7 @@ export default async function Page() {
                 </TableHeader>
                 <TableBody>
                     {orgs.map((org) => (
-                        <OrganizationEntry key={org.org_id} org={org} />
+                        <OrganizationEntry key={org.orgId} org={org} />
                     ))}
                 </TableBody>
             </Table>

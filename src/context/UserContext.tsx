@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/types/users";
+import { User } from "@/dto/users";
 import React, { createContext, useContext } from "react";
 
 const UserContext = createContext<User | null>(null);

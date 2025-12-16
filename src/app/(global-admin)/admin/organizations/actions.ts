@@ -27,10 +27,7 @@ export async function upsertOrg(
 
     try {
         if (id) {
-            await db
-                .update(orgs)
-                .set({ name, slug })
-                .where(eq(orgs.org_id, id));
+            await db.update(orgs).set({ name, slug }).where(eq(orgs.orgId, id));
         } else {
             await db.insert(orgs).values({ name, slug });
         }

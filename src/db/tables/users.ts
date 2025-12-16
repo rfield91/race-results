@@ -10,7 +10,7 @@ export const users = pgTable(
         authProviderId: text("auth_provider_id").unique().notNull(),
         createdAt: createdAt,
         updatedAt: updatedAt,
-        deletedDt: deletedAt,
+        deletedAt: deletedAt,
         displayName: text("display_name"),
     },
     (table) => [uniqueIndex("auth_provider_idx").on(table.authProviderId)]

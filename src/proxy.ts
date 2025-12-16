@@ -35,7 +35,7 @@ const parseTenantFromRequest = (req: NextRequest) => {
     return GLOBAL_TENANT;
 };
 
-export default clerkMiddleware(async (auth, req) => {
+export default clerkMiddleware(async (_auth, req) => {
     const tenant = parseTenantFromRequest(req);
 
     if (tenant === GLOBAL_TENANT) {
