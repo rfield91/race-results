@@ -1,5 +1,12 @@
 import { timestamp } from "drizzle-orm/pg-core";
 
-export const created_at = timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
-export const updated_at = timestamp("updated_at", { withTimezone: true }).notNull().defaultNow();
-export const deleted_at = timestamp("deleted_at", { withTimezone: true });
+export const createdAt = timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow();
+export const updatedAt = timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow();
+export const deletedAt = timestamp("deleted_at", { withTimezone: true });
+export const effectiveAt = timestamp("effective_at", { withTimezone: true })
+    .notNull()
+    .defaultNow();

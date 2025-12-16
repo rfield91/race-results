@@ -1,25 +1,22 @@
 "use client";
 
-import { Tenant } from "@/lib/getTenant";
+import { Tenant } from "@/lib/tenants/get-tenant";
 import React, { createContext, useContext } from "react";
-
-export type TenantContextType = {
-    tenant: Tenant
-};
 
 const TenantContext = createContext<Tenant | null>(null);
 
 export function TenantProvider({
     tenant,
-    children
+    children,
 }: {
-    tenant: Tenant,
-    children: React.ReactNode
+    tenant: Tenant;
+    children: React.ReactNode;
 }) {
-    return <TenantContext.Provider
-        value={tenant}>
-        {children}
-    </TenantContext.Provider>;
+    return (
+        <TenantContext.Provider value={tenant}>
+            {children}
+        </TenantContext.Provider>
+    );
 }
 
 export function useTenant() {

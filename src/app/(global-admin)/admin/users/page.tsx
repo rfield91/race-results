@@ -1,0 +1,51 @@
+import { LinkButton } from "@/components/link-button/link-button";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { getUsers } from "@/lib/users/get-users";
+import { PencilIcon } from "lucide-react";
+
+export default async function Page() {
+    const users = await getUsers();
+
+    return (
+        <div className="w-full flex flex-col gap-4">
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Roles</TableHead>
+                        <TableHead>
+                            <span className="sr-only">Actions</span>
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {users.map((user) => (
+                        <TableRow key={user.userId}>
+                            <TableCell>{user.displayName}</TableCell>
+                            <TableCell>
+                                {user.assignedRoles
+                                    .map((r) => r.role)
+                                    .join(", ")}
+                            </TableCell>
+                            <TableCell className="flex justify-end">
+                                <LinkButton
+                                    variant={"outline"}
+                                    href={`/admin/users/${user.userId}`}
+                                >
+                                    <PencilIcon />
+                                </LinkButton>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
+    );
+}

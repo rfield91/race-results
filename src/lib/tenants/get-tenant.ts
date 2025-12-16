@@ -21,7 +21,7 @@ type ValidTenant = {
     isValid: true;
     isGlobal: false;
     details: TenantDetails;
-}
+};
 
 export type Tenant = InvalidTenant | GlobalTenant | ValidTenant;
 
@@ -31,33 +31,31 @@ export async function getTenant(): Promise<Tenant> {
 
     if (!slug) {
         return {
-            isValid: false
+            isValid: false,
         } as Tenant;
     }
 
     if (slug === "global") {
         return {
             isValid: true,
-            isGlobal: true
+            isGlobal: true,
         } as Tenant;
     }
 
     const tenant = await db.query.orgs.findFirst({
-        where: (orgs, { and }) => and(
-            isNull(orgs.deletedAt),
-            eq(orgs.slug, slug)
-        )
+        where: (orgs, { and }) =>
+            and(isNull(orgs.deletedAt), eq(orgs.slug, slug)),
     });
 
-    if (typeof tenant === 'undefined') {
+    if (typeof tenant === "undefined") {
         return {
-            isValid: false
+            isValid: false,
         } as Tenant;
     }
 
     return {
         isValid: true,
         details: tenant,
-        isGlobal: false
+        isGlobal: false,
     } as Tenant;
 }

@@ -15,6 +15,13 @@
       "when": 1765367693374,
       "tag": "0001_fine_tigra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765489983116,
+      "tag": "0002_pale_onslaught",
+      "breakpoints": true
     }
   ]
 }

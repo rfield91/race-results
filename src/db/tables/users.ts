@@ -1,14 +1,40 @@
-import { pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
-import { created_at, deleted_at, updated_at } from "../utils/columns";
+import { relations } from "drizzle-orm";
+import { boolean, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { roles } from "../schema";
+import { createdAt, deletedAt, effectiveAt, updatedAt } from "../utils/columns";
 
-export const users = pgTable("users", {
-    user_id: uuid("id").primaryKey().defaultRandom(),
-    auth_provider_id: text("auth_provider_id").unique().notNull(),
-    created_at: created_at,
-    updated_at: updated_at,
-    deleted_at: deleted_at,
-    display_name: text("display_name")
-}, table => [
-    uniqueIndex("auth_provider_idx").on(table.auth_provider_id)
-]);
+export const users = pgTable(
+    "users",
+    {
+        userId: uuid("id").primaryKey().defaultRandom(),
+        authProviderId: text("auth_provider_id").unique().notNull(),
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        deletedDt: deletedAt,
+        displayName: text("display_name"),
+    },
+    (table) => [uniqueIndex("auth_provider_idx").on(table.authProviderId)]
+);
 
+export const userRoles = pgTable("user_roles", {
+    userId: uuid("id")
+        .notNull()
+        .references(() => users.userId, { onDelete: "cascade" }),
+    role: text("role")
+        .notNull()
+        .references(() => roles.role, { onDelete: "cascade" }),
+    effectiveAt: effectiveAt,
+    isNegated: boolean("is_negated").notNull().default(false),
+});
+
+export const usersRelations = relations(users, ({ many }) => ({
+    assignedRoles: many(userRoles, { relationName: "assigned_user_roles" }),
+}));
+
+export const userRolesRelations = relations(userRoles, ({ one }) => ({
+    user: one(users, {
+        fields: [userRoles.userId],
+        references: [users.userId],
+        relationName: "assigned_user_roles",
+    }),
+}));
