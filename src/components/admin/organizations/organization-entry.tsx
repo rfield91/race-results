@@ -1,5 +1,5 @@
 import { LinkButton } from "@/components/link-button/link-button";
-import { TableCell, TableRow } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/library/ui/table";
 import { Organization } from "@/dto/organizations";
 import { PencilIcon } from "lucide-react";
 

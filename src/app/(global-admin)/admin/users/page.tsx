@@ -6,7 +6,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/components/library/ui/table";
 import { userService } from "@/services/users/user.service";
 import { PencilIcon } from "lucide-react";
 

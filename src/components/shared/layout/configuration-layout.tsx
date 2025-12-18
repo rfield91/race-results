@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/library/ui/sidebar";
 import { NavGroup } from "@/lib/shared/layout/configuration/navigation";
 import React from "react";
 import { SidebarNavigation } from "./sidebar-navigation";

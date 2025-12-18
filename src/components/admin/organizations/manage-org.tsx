@@ -4,12 +4,16 @@ import { upsertOrganization } from "@/app/actions/organization.actions";
 import { Button } from "@/components/button/button";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
+    DialogFooter,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/library/ui/dialog";
+import { Field, FieldGroup, FieldLabel } from "@/components/library/ui/field";
+import { Input } from "@/components/library/ui/input";
 import { Organization } from "@/dto/organizations";
-import { ReactNode, useActionState } from "react";
+import { ReactElement, useActionState } from "react";
 
 const initialState = {
     isError: false,
@@ -21,7 +25,7 @@ export const ManageOrgDialog = ({
     trigger,
 }: {
     org?: Organization;
-    trigger: ReactNode;
+    trigger: ReactElement;
 }) => {
     const [state, formAction, pending] = useActionState(
         upsertOrganization,
@@ -43,16 +47,27 @@ export const ManageOrgDialog = ({
                         <input type="hidden" name="org-id" value={org.orgId} />
                     )}
 
-                    <input
-                        type="text"
-                        name="org-name"
-                        defaultValue={org?.name}
-                        required
-                    />
+                    <FieldGroup>
+                        <Field>
+                            <FieldLabel>Name</FieldLabel>
+                            <Input
+                                type="text"
+                                name="org-name"
+                                placeholder="Pizza Club"
+                                defaultValue={org?.name}
+                                required
+                            />
+                        </Field>
+                    </FieldGroup>
 
-                    <Button type="submit" disabled={pending}>
-                        {pending ? "Saving…" : "Save"}
-                    </Button>
+                    <DialogFooter>
+                        <DialogClose>
+                            <Button variant={"ghost"}>Cancel</Button>
+                        </DialogClose>
+                        <Button type="submit" disabled={pending}>
+                            {pending ? "Saving…" : "Save"}
+                        </Button>
+                    </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>

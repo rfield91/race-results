@@ -14,7 +14,7 @@ export default defineConfig([
         "out/**",
         "build/**",
         "next-env.d.ts",
-        "src/components/ui/**",
+        "src/components/library/ui/**",
     ]),
     eslint.configs.recommended,
     {

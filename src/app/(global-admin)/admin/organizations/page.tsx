@@ -7,7 +7,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/components/library/ui/table";
 import { organizationService } from "@/services/organizations/organization.service";
 import { PlusIcon } from "lucide-react";
 

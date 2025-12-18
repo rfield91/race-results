@@ -9,7 +9,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/library/ui/sidebar";
 import { NavGroup } from "@/lib/shared/layout/configuration/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,10 +28,13 @@ export const SidebarNavigation = ({ navItems }: { navItems: NavGroup[] }) => {
                                 {group.items.map((item) => (
                                     <SidebarMenuItem key={item.href}>
                                         <SidebarMenuButton
-                                            asChild
                                             isActive={pathname === item.href}
+                                            asChild
                                         >
-                                            <Link href={item.href}>
+                                            <Link
+                                                href={item.href}
+                                                className="w-full"
+                                            >
                                                 {item.text}
                                             </Link>
                                         </SidebarMenuButton>
