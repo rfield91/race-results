@@ -1,5 +1,6 @@
 import { createdAt, deletedAt, updatedAt } from "@/db/utils/columns";
-import { pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+
+import { boolean, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 export const orgs = pgTable(
     "orgs",
@@ -7,6 +8,8 @@ export const orgs = pgTable(
         orgId: uuid("id").primaryKey().defaultRandom(),
         name: text("name").unique().notNull(),
         slug: text("slug").unique().notNull(),
+        description: text("description"),
+        isPublic: boolean("is_public").notNull().default(false),
         createdAt: createdAt,
         updatedAt: updatedAt,
         deletedAt: deletedAt,

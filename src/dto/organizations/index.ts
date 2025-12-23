@@ -7,6 +7,8 @@ export interface Organization {
     orgId: string;
     name: string;
     slug: string;
+    description: string | null;
+    isPublic: boolean;
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date | null;
@@ -19,4 +21,6 @@ export interface CreateOrgDTO {
 export interface UpdateOrgDTO {
     orgId: string;
     name: string;
+    description: string | null;
+    isPublic: boolean;
 }

@@ -1,8 +1,15 @@
-import { ManageOrgDialog } from "@/components/admin/organizations/manage-org";
-import { Button } from "@/components/button/button";
+import { UpdateOrgForm } from "@/components/admin/organizations/update-org-form";
+import {
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+} from "@/components/library/ui/empty";
 import { LinkButton } from "@/components/link-button/link-button";
 import { organizationService } from "@/services/organizations/organization.service";
-import { ArrowLeft, PencilIcon } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 export default async function Page({
     params,
@@ -12,28 +19,32 @@ export default async function Page({
     const { slug } = await params;
     const org = await organizationService.getOrganizationBySlug(slug);
 
+    if (org === null) {
+        return (
+            <Empty>
+                <EmptyHeader>
+                    <EmptyMedia variant="icon">
+                        <TriangleAlert />
+                    </EmptyMedia>
+                    <EmptyTitle>Organization Not Found</EmptyTitle>
+                    <EmptyDescription>
+                        The organization you are looking for does not exist.
+                    </EmptyDescription>
+                </EmptyHeader>
+                <EmptyContent>
+                    <LinkButton href="/admin/organizations">Go Back</LinkButton>
+                </EmptyContent>
+            </Empty>
+        );
+    }
+
     return (
         <div>
-            <LinkButton href="/admin/organizations">
-                <ArrowLeft />
-                Go Back
-            </LinkButton>
             <div className="flex flex-col gap-4 mt-4">
-                {org === null ? (
-                    <p>Organization not found</p>
-                ) : (
-                    <div className="flex gap-2">
-                        <h2>{org.name}</h2>
-                        <ManageOrgDialog
-                            org={org}
-                            trigger={
-                                <Button variant={"ghost"}>
-                                    <PencilIcon />
-                                </Button>
-                            }
-                        />
-                    </div>
-                )}
+                <div>
+                    <LinkButton href="/admin/organizations">Go Back</LinkButton>
+                </div>
+                <UpdateOrgForm org={org} />
             </div>
         </div>
     );

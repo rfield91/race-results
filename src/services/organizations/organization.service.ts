@@ -8,7 +8,7 @@ import { organizationsRepository } from "@/db/repositories/organizations.repo";
 import { ValidationError } from "@/lib/errors/app-errors";
 
 interface IOrganizationService {
-    getAllOrganizations(): Promise<Organization[]>;
+    getAllOrganizations(publicOnly?: boolean): Promise<Organization[]>;
     getOrganizationBySlug(slug: string): Promise<Organization | null>;
     createOrganization(dto: CreateOrgDTO): Promise<Organization>;
     updateOrganization(dto: UpdateOrgDTO): Promise<Organization>;
@@ -23,8 +23,12 @@ export class OrganizationService implements IOrganizationService {
             .replace(/(^-|-$)/g, "");
     }
 
-    async getAllOrganizations() {
-        return mapOrganizations(await organizationsRepository.findAll());
+    async getAllOrganizations(
+        publicOnly: boolean = true
+    ): Promise<Organization[]> {
+        return mapOrganizations(
+            await organizationsRepository.findAll(publicOnly)
+        );
     }
 
     async getOrganizationBySlug(slug: string): Promise<Organization | null> {
@@ -66,6 +70,7 @@ export class OrganizationService implements IOrganizationService {
                 "Organization with this name already exists"
             );
         }
+        console.log("dto", dto);
 
         return await organizationsRepository.update(dto);
     }
@@ -84,6 +89,8 @@ const mapOrganization = (data: OrganizationDTO) => {
         orgId: data.orgId,
         name: data.name,
         slug: data.slug,
+        description: data.description,
+        isPublic: data.isPublic,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
         deletedAt: data.deletedAt,

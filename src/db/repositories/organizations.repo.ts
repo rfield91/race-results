@@ -8,7 +8,7 @@ import { DatabaseError } from "@/lib/errors/app-errors";
 import { and, eq, isNull } from "drizzle-orm";
 
 interface IOrganizationsRepository {
-    findAll(): Promise<OrganizationDTO[]>;
+    findAll(publicOnly?: boolean): Promise<OrganizationDTO[]>;
     findById(orgId: string): Promise<OrganizationDTO | null>;
     findBySlug(slug: string): Promise<OrganizationDTO | null>;
     findByName(name: string): Promise<OrganizationDTO | null>;
@@ -18,9 +18,12 @@ interface IOrganizationsRepository {
 }
 
 export class OrganizationsRepository implements IOrganizationsRepository {
-    async findAll() {
+    async findAll(publicOnly: boolean = true) {
         return await db.query.orgs.findMany({
-            where: isNull(orgs.deletedAt),
+            where: and(
+                isNull(orgs.deletedAt),
+                publicOnly ? eq(orgs.isPublic, true) : undefined
+            ),
             orderBy: orgs.name,
         });
     }
@@ -74,7 +77,11 @@ export class OrganizationsRepository implements IOrganizationsRepository {
     async update(dto: UpdateOrgDTO): Promise<OrganizationDTO> {
         const [org] = await db
             .update(orgs)
-            .set({ name: dto.name })
+            .set({
+                name: dto.name,
+                description: dto.description,
+                isPublic: dto.isPublic,
+            })
             .where(eq(orgs.orgId, dto.orgId))
             .returning();
 

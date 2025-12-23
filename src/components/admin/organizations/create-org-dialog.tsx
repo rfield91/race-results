@@ -1,6 +1,6 @@
 "use client";
 
-import { upsertOrganization } from "@/app/actions/organization.actions";
+import { createOrganization } from "@/app/actions/organization.actions";
 import { Button } from "@/components/button/button";
 import {
     Dialog,
@@ -13,59 +13,48 @@ import {
 import { Field, FieldGroup, FieldLabel } from "@/components/library/ui/field";
 import { Input } from "@/components/library/ui/input";
 import { Organization } from "@/dto/organizations";
+import { nameof } from "@/lib/utils";
 import { ReactElement, useActionState } from "react";
 
-const initialState = {
-    isError: false,
-    message: "",
-};
-
-export const ManageOrgDialog = ({
-    org,
-    trigger,
-}: {
-    org?: Organization;
-    trigger: ReactElement;
-}) => {
-    const [state, formAction, pending] = useActionState(
-        upsertOrganization,
-        initialState
-    );
+export const CreateOrgDialog = ({ trigger }: { trigger: ReactElement }) => {
+    const [state, formAction, pending] = useActionState(createOrganization, {
+        isError: false,
+        message: "",
+    });
 
     return (
         <Dialog>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
             <DialogContent>
-                <DialogTitle>{org ? "Edit" : "Add"} Organization</DialogTitle>
+                <DialogTitle>Create Organization</DialogTitle>
 
                 <form action={formAction} className="flex flex-col gap-2">
                     {state.isError && (
                         <div className="text-red-500">{state.message}</div>
                     )}
 
-                    {org && (
-                        <input type="hidden" name="org-id" value={org.orgId} />
-                    )}
-
                     <FieldGroup>
                         <Field>
-                            <FieldLabel>Name</FieldLabel>
+                            <FieldLabel htmlFor={nameof<Organization>("name")}>
+                                Name
+                            </FieldLabel>
                             <Input
                                 type="text"
-                                name="org-name"
+                                id={nameof<Organization>("name")}
+                                name={nameof<Organization>("name")}
                                 placeholder="Pizza Club"
-                                defaultValue={org?.name}
+                                defaultValue={""}
                                 required
                             />
                         </Field>
                     </FieldGroup>
 
                     <DialogFooter>
-                        <DialogClose>
+                        <DialogClose asChild>
                             <Button variant={"ghost"}>Cancel</Button>
                         </DialogClose>
                         <Button type="submit" disabled={pending}>
-                            {pending ? "Saving…" : "Save"}
+                            {pending ? "Creating..." : "Create"}
                         </Button>
                     </DialogFooter>
                 </form>

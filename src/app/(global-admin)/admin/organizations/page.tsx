@@ -1,4 +1,4 @@
-import { ManageOrgDialog } from "@/components/admin/organizations/manage-org";
+import { CreateOrgDialog } from "@/components/admin/organizations/create-org-dialog";
 import { OrganizationEntry } from "@/components/admin/organizations/organization-entry";
 import { Button } from "@/components/button/button";
 import {
@@ -12,12 +12,12 @@ import { organizationService } from "@/services/organizations/organization.servi
 import { PlusIcon } from "lucide-react";
 
 export default async function Page() {
-    const orgs = await organizationService.getAllOrganizations();
+    const orgs = await organizationService.getAllOrganizations(false);
 
     return (
         <div className="w-full flex flex-col gap-4">
             <div>
-                <ManageOrgDialog
+                <CreateOrgDialog
                     trigger={
                         <Button>
                             <PlusIcon />
