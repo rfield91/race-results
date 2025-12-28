@@ -8,7 +8,7 @@ export const Button = ({
     children: React.ReactNode;
 }) => {
     return (
-        <ShadButton {...props} className="flex items-center cursor-pointer">
+        <ShadButton {...props} className="flex cursor-pointer items-center">
             {children}
         </ShadButton>
     );

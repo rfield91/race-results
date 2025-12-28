@@ -40,7 +40,7 @@ export default async function Page({
 
     return (
         <div>
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="mt-4 flex flex-col gap-4">
                 <div>
                     <LinkButton href="/admin/organizations">Go Back</LinkButton>
                 </div>

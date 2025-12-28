@@ -14,7 +14,7 @@ export default async function Page() {
     const users = await userService.getAllUsers();
 
     return (
-        <div className="w-full flex flex-col gap-4">
+        <div className="flex w-full flex-col gap-4">
             <Table>
                 <TableHeader>
                     <TableRow>

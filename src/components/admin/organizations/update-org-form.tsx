@@ -25,7 +25,7 @@ export const UpdateOrgForm = ({ org }: { org: Organization }) => {
     });
 
     return (
-        <Card className="w-full ">
+        <Card className="w-full">
             <CardHeader>
                 <CardTitle>Organization Information</CardTitle>
             </CardHeader>
@@ -64,7 +64,7 @@ export const UpdateOrgForm = ({ org }: { org: Organization }) => {
                                     URL Slug
                                 </FieldLabel>
                                 <Input
-                                    className="bg-gray-100 pointer-events-none"
+                                    className="pointer-events-none bg-gray-100"
                                     type="text"
                                     id={nameof<Organization>("slug")}
                                     name={nameof<Organization>("slug")}

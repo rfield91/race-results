@@ -15,7 +15,7 @@ export default async function Page() {
     const orgs = await organizationService.getAllOrganizations(false);
 
     return (
-        <div className="w-full flex flex-col gap-4">
+        <div className="flex w-full flex-col gap-4">
             <div>
                 <CreateOrgDialog
                     trigger={

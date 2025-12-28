@@ -21,41 +21,41 @@ export default async function GlobalLayout({
     return (
         <TenantProvider tenant={tenant}>
             <div className="flex min-h-screen flex-col">
-                <header className="sticky top-0 z-50 w-full border-b bg-background">
-                    <div className="w-full flex h-16 items-center justify-between px-4">
+                <header className="bg-background sticky top-0 z-50 w-full border-b">
+                    <div className="flex h-16 w-full items-center justify-between px-4">
                         <div className="flex items-center gap-6">
                             <Link
                                 href="/"
-                                className="flex items-center gap-2 font-bold text-xl"
+                                className="flex items-center gap-2 text-xl font-bold"
                             >
                                 <span className="text-orange-500">🏁</span>
                                 Race Results
                             </Link>
-                            <nav className="hidden md:flex items-center gap-6 text-sm h-16">
+                            <nav className="hidden h-16 items-center gap-6 text-sm md:flex">
                                 <Link
                                     href="/"
-                                    className="transition-colors hover:text-orange-600 border-b-2 h-full flex items-center border-transparent hover:border-orange-400 duration-500 ease-in-out"
+                                    className="flex h-full items-center border-b-2 border-transparent transition-colors duration-500 ease-in-out hover:border-orange-400 hover:text-orange-600"
                                 >
                                     Organizations
                                 </Link>
                                 <Link
                                     href="/events"
-                                    className="transition-colors hover:text-orange-600 border-b-2 h-full flex items-center border-transparent hover:border-orange-400 duration-500 ease-in-out"
+                                    className="flex h-full items-center border-b-2 border-transparent transition-colors duration-500 ease-in-out hover:border-orange-400 hover:text-orange-600"
                                 >
                                     Events
                                 </Link>
                                 <Link
                                     href="/results"
-                                    className="transition-colors hover:text-orange-600 border-b-2 h-full flex items-center border-transparent hover:border-orange-400 duration-500 ease-in-out"
+                                    className="flex h-full items-center border-b-2 border-transparent transition-colors duration-500 ease-in-out hover:border-orange-400 hover:text-orange-600"
                                 >
                                     Results
                                 </Link>
                                 <Link
                                     href="/live"
-                                    className="transition-colors hover:text-orange-600 border-b-2 h-full flex items-center border-transparent hover:border-orange-400 duration-500 ease-in-out gap-2"
+                                    className="flex h-full items-center gap-2 border-b-2 border-transparent transition-colors duration-500 ease-in-out hover:border-orange-400 hover:text-orange-600"
                                 >
                                     Live Timing{" "}
-                                    <CgMediaLive className="text-red-500 animate-pulse" />
+                                    <CgMediaLive className="animate-pulse text-red-500" />
                                 </Link>
                             </nav>
                         </div>
@@ -78,21 +78,21 @@ export default async function GlobalLayout({
                     </div>
                 </header>
                 <main className="flex-1">{children}</main>
-                <footer className="mt-20 border-t bg-muted/50 py-12">
+                <footer className="bg-muted/50 mt-20 border-t py-12">
                     <div className="container px-4">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
                             <div>
-                                <h3 className="font-bold mb-4 flex items-center gap-2">
+                                <h3 className="mb-4 flex items-center gap-2 font-bold">
                                     <span className="text-orange-500">🏁</span>
                                     Race Results
                                 </h3>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-muted-foreground text-sm">
                                     Multi-tenant motorsports results and live
                                     timing platform.
                                 </p>
                             </div>
                             <div>
-                                <h4 className="font-semibold mb-4">
+                                <h4 className="mb-4 font-semibold">
                                     Quick Links
                                 </h4>
                                 <ul className="space-y-2 text-sm">
@@ -131,7 +131,7 @@ export default async function GlobalLayout({
                                 </ul>
                             </div>
                             <div>
-                                <h4 className="font-semibold mb-4">Connect</h4>
+                                <h4 className="mb-4 font-semibold">Connect</h4>
                                 <div className="flex gap-4">
                                     <a
                                         href="https://facebook.com"
@@ -139,7 +139,7 @@ export default async function GlobalLayout({
                                         className="group"
                                         title="Visit us on Facebook"
                                     >
-                                        <FaFacebookF className="group-hover:scale-110 transition-all duration-500" />
+                                        <FaFacebookF className="transition-all duration-500 group-hover:scale-110" />
                                     </a>
                                     <a
                                         href="https://instagram.com"
@@ -147,13 +147,13 @@ export default async function GlobalLayout({
                                         className="group"
                                         title="Visit us on Instagram"
                                     >
-                                        <FaInstagram className="group-hover:scale-110 transition-all duration-500" />
+                                        <FaInstagram className="transition-all duration-500 group-hover:scale-110" />
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <Separator className="my-8" />
-                        <p className="text-center text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-center text-sm">
                             © {new Date().getFullYear()} Race Results. All
                             rights reserved.
                         </p>

@@ -10,14 +10,14 @@ export default async function Page() {
     }
 
     return (
-        <div className="lg:w-1/2 mx-auto mt-8">
+        <div className="mx-auto mt-8 lg:w-1/2">
             <Link
                 href={"/"}
-                className="p-2 border border-gray-200 shadow rounded hover:border-gray-300"
+                className="rounded border border-gray-200 p-2 shadow hover:border-gray-300"
             >
                 Go Back
             </Link>
-            <h1 className="text-xl font-bold mt-8">{tenant.org.name}</h1>
+            <h1 className="mt-8 text-xl font-bold">{tenant.org.name}</h1>
         </div>
     );
 }
