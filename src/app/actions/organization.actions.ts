@@ -52,6 +52,9 @@ export async function updateOrganization(
 ): Promise<ActionState> {
     const orgId = formData.get(nameof<Organization>("orgId"))?.toString();
     const name = formData.get(nameof<Organization>("name"))?.toString().trim();
+    const motorsportregOrgId =
+        formData.get(nameof<Organization>("motorsportregOrgId"))?.toString().trim() ||
+        null;
     const description =
         formData.get(nameof<Organization>("description"))?.toString().trim() ||
         null;
@@ -71,6 +74,7 @@ export async function updateOrganization(
         org = await organizationService.updateOrganization({
             orgId,
             name,
+            motorsportregOrgId,
             description,
             isPublic,
         });

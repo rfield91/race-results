@@ -14,7 +14,7 @@ export async function getOrganizationEventsExample(organizationId: string) {
         const response = await motorsportRegService.getOrganizationCalendar(
             organizationId,
             {
-                postalcode: "02134",
+                postalCode: "02134",
                 radius: 100,
                 exclude_cancelled: true,
             }

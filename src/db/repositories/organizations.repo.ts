@@ -100,6 +100,7 @@ export class OrganizationsRepository implements IOrganizationsRepository {
             .update(orgs)
             .set({
                 name: dto.name,
+                motorsportregOrgId: dto.motorsportregOrgId,
                 description: dto.description,
                 isPublic: dto.isPublic,
             })

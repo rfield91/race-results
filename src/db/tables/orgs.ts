@@ -15,6 +15,7 @@ export const orgs = pgTable(
         orgId: uuid("id").primaryKey().defaultRandom(),
         name: text("name").unique().notNull(),
         slug: text("slug").unique().notNull(),
+        motorsportregOrgId: text("motorsportreg_org_id").unique(),
         description: text("description"),
         isPublic: boolean("is_public").notNull().default(false),
         createdAt: createdAt,
