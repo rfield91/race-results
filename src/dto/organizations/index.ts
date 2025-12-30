@@ -7,6 +7,7 @@ export interface Organization {
     orgId: string;
     name: string;
     slug: string;
+    motorsportregOrgId: string | null;
     description: string | null;
     isPublic: boolean;
     createdAt: Date;
@@ -21,6 +22,7 @@ export interface CreateOrgDTO {
 export interface UpdateOrgDTO {
     orgId: string;
     name: string;
+    motorsportregOrgId?: string | null;
     description: string | null;
     isPublic: boolean;
 }

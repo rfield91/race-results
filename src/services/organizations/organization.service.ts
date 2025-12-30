@@ -89,6 +89,7 @@ const mapOrganization = (data: OrganizationDTO) => {
         orgId: data.orgId,
         name: data.name,
         slug: data.slug,
+        motorsportregOrgId: data.motorsportregOrgId,
         description: data.description,
         isPublic: data.isPublic,
         createdAt: data.createdAt,

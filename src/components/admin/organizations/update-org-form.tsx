@@ -72,6 +72,24 @@ export const UpdateOrgForm = ({ org }: { org: Organization }) => {
                                     readOnly
                                 />
                             </Field>
+                            <Field>
+                                <FieldLabel
+                                    htmlFor={nameof<Organization>(
+                                        "motorsportregOrgId"
+                                    )}
+                                >
+                                    MotorsportReg Org ID
+                                </FieldLabel>
+                                <Input
+                                    type="text"
+                                    id={nameof<Organization>("motorsportregOrgId")}
+                                    name={nameof<Organization>(
+                                        "motorsportregOrgId"
+                                    )}
+                                    defaultValue={org.motorsportregOrgId || ""}
+                                    placeholder="Enter MotorsportReg organization ID"
+                                />
+                            </Field>
                             <Field className="col-span-2">
                                 <FieldLabel
                                     htmlFor={nameof<Organization>(

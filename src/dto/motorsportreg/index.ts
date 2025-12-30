@@ -27,7 +27,7 @@ export interface Venue {
     city: string;
     region: string;
     country?: string;
-    postalcode?: string;
+    postalCode?: string;
 }
 
 export interface CalendarResponse {
@@ -107,7 +107,7 @@ export interface Vehicle {
 }
 
 export interface OrganizationCalendarParams {
-    postalcode?: string;
+    postalCode?: string;
     radius?: number;
     country?: string;
     archive?: boolean;

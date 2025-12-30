@@ -38,7 +38,7 @@ import { motorsportRegService } from "@/services/motorsportreg/motorsportreg.ser
 
 // Get organization calendar (unauthenticated)
 const calendar = await motorsportRegService.getOrganizationCalendar("org-id", {
-    postalcode: "02134",
+    postalCode: "02134",
     radius: 100,
     archive: false,
 });
