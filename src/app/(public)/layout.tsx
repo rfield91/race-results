@@ -2,7 +2,6 @@ import { userService } from "@/services/users/user.service";
 import { ROLES } from "@/dto/users";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import React from "react";
 import { Button } from "@/components/library/ui/button";
 import { TenantProvider } from "@/context/TenantContext";
 import { tenantService } from "@/services/tenants/tenant.service";

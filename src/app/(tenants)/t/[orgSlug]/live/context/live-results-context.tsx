@@ -1,12 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useMemo } from "react";
-import type {
-    ClassResult,
-    DisplayMode,
-    RawResult,
-    RunWork,
-} from "../types";
+import { createContext, useContext, useMemo } from "react";
+import type { ClassResult, DisplayMode, RawResult, RunWork } from "../types";
 
 type LiveResultsData = {
     classResults: Record<string, ClassResult[]> | null;
@@ -64,4 +59,3 @@ export function useLiveResults() {
 
     return context;
 }
-

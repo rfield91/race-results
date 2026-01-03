@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/dto/users";
-import React, { createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 
 const UserContext = createContext<User | null>(null);
 

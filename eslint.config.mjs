@@ -35,11 +35,11 @@ export default defineConfig([
                     markers: ["/"],
                 },
             ],
-            "react/jsx-uses-react": "off",
             "react/react-in-jsx-scope": "off",
             semi: ["error", "always"],
             "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 1 }],
             "no-unused-vars": "off",
+            "no-undef": "off",
             "@typescript-eslint/no-unused-vars": [
                 "error",
                 {

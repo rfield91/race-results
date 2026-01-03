@@ -2,7 +2,6 @@ import { UserProvider } from "@/context/UserContext";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
-import React from "react";
 import "./globals.css";
 import { userService } from "@/services/users/user.service";
 

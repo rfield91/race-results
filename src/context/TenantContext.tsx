@@ -1,7 +1,7 @@
 "use client";
 
 import { Tenant } from "@/dto/tenants";
-import React, { createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 
 const TenantContext = createContext<Tenant | null>(null);
 

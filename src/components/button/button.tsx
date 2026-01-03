@@ -1,4 +1,4 @@
-import React, { ComponentProps } from "react";
+import { ComponentProps } from "react";
 import { Button as ShadButton } from "@/components/library/ui/button";
 
 export const Button = ({
