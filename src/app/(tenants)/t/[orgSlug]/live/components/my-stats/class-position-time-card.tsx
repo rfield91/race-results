@@ -1,17 +1,19 @@
-import type { ClassResult, DisplayMode, RawResult } from "../../types";
+"use client";
+
+import type { ClassResult, RawResult } from "../../types";
+import { useLiveData } from "../../hooks/useLiveData";
 import { PositionTimeCard } from "./position-time-card";
 
 type ClassPositionTimeCardProps = {
     classResult: ClassResult | null;
     rawResult: RawResult | null;
-    displayMode: DisplayMode;
 };
 
 export function ClassPositionTimeCard({
     classResult,
     rawResult,
-    displayMode,
 }: ClassPositionTimeCardProps) {
+    const { displayMode } = useLiveData();
     const bestTime =
         displayMode === "rallycross" && classResult?.runInfo.rallyCrossTime
             ? classResult.runInfo.rallyCrossTime

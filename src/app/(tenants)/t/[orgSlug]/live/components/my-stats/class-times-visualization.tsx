@@ -1,22 +1,19 @@
 "use client";
 
 import { useMemo } from "react";
-import type { ClassResult, DisplayMode } from "../../types";
-import { createDriverId } from "./utils";
+import type { ClassResult } from "../../types";
+import { useLiveData } from "../../hooks/useLiveData";
 
 type ClassTimesVisualizationProps = {
     classResult: ClassResult;
     selectedDriverId: string;
-    classResults: Record<string, ClassResult[]> | null;
-    displayMode: DisplayMode;
 };
 
 export function ClassTimesVisualization({
     classResult,
     selectedDriverId,
-    classResults,
-    displayMode,
 }: ClassTimesVisualizationProps) {
+    const { classResults, displayMode, createDriverId } = useLiveData();
     // Get all drivers in the same class
     const classDrivers = useMemo(() => {
         if (!classResults || !classResult) return [];

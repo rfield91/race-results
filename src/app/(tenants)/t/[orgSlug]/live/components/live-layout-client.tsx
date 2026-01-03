@@ -61,7 +61,7 @@ export function LiveLayoutClient({
                     />
                 </Button>
             </nav>
-            <div className="w-full max-w-7xl px-4">{children}</div>
+            <div className="mt-4 w-full max-w-7xl px-4">{children}</div>
         </div>
     );
 }

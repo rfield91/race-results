@@ -1,36 +1,17 @@
 "use client";
 
-import { useTransition } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useLiveData } from "../../hooks/useLiveData";
+import { useUrlFilters } from "../../hooks/useUrlFilters";
 import { ClassLinks } from "./class-links";
 import { IndividualClassResults } from "./individual-class-results";
 import { EmptyState } from "../shared/empty-state";
 
 export const ClassResults = () => {
-    const { classResults, classNames, displayMode } = useLiveData();
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const [, startTransition] = useTransition();
+    const { classResults, classNames } = useLiveData();
+    const { getFilters, updateFilters } = useUrlFilters();
 
     // Get filtered classes from URL search params
-    const filteredClasses = searchParams.get("classes")
-        ? searchParams.get("classes")!.split(",").filter((c) => classNames.includes(c))
-        : [];
-
-    // Update URL when filters change
-    const updateFilters = (newFilters: string[]) => {
-        const params = new URLSearchParams(searchParams.toString());
-        if (newFilters.length > 0) {
-            params.set("classes", newFilters.join(","));
-        } else {
-            params.delete("classes");
-        }
-        startTransition(() => {
-            router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-        });
-    };
+    const filteredClasses = getFilters("classes", classNames);
 
     if (!classResults) {
         return <EmptyState message="No results available" />;
@@ -38,15 +19,15 @@ export const ClassResults = () => {
 
     const handleFilteredClasses = (toggleClass: string) => {
         const index = filteredClasses.indexOf(toggleClass);
-        if (index === -1) {
-            updateFilters([...filteredClasses, toggleClass]);
-        } else {
-            updateFilters(filteredClasses.filter((c) => c !== toggleClass));
-        }
+        const newFilters =
+            index === -1
+                ? [...filteredClasses, toggleClass]
+                : filteredClasses.filter((c) => c !== toggleClass);
+        updateFilters("classes", newFilters);
     };
 
     const clearFilteredClasses = () => {
-        updateFilters([]);
+        updateFilters("classes", []);
     };
 
     const classResultsElements = classNames
@@ -55,11 +36,7 @@ export const ClassResults = () => {
             return filteredClasses.length === 0 || filteredClasses.includes(classKey);
         })
         .map((classKey) => (
-            <IndividualClassResults
-                key={classKey}
-                className={classKey}
-                displayMode={displayMode}
-            />
+            <IndividualClassResults key={classKey} className={classKey} />
         ));
 
     return (

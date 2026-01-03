@@ -2,12 +2,6 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useLiveData } from "../../hooks/useLiveData";
-import {
-    getAllDrivers,
-    findDriverInClassResults,
-    findDriverInPaxResults,
-    findDriverInRawResults,
-} from "./utils";
 import { DriverSelect } from "./driver-select";
 import { ClassPositionTimeCard } from "./class-position-time-card";
 import { PositionTimeCard } from "./position-time-card";
@@ -18,13 +12,19 @@ import { TimesDistributionChart } from "./times-distribution-chart";
 const STORAGE_KEY = "selected-driver-id";
 
 export function MyStats() {
-    const { classResults, paxResults, rawResults, displayMode } = useLiveData();
+    const {
+        classResults,
+        paxResults,
+        rawResults,
+        displayMode,
+        getAllDrivers,
+        findDriverInClassResults,
+        findDriverInPaxResults,
+        findDriverInRawResults,
+    } = useLiveData();
     const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
 
-    const allDrivers = useMemo(
-        () => getAllDrivers(classResults, paxResults, rawResults),
-        [classResults, paxResults, rawResults]
-    );
+    const allDrivers = useMemo(() => getAllDrivers(), [getAllDrivers]);
 
     // Load selected driver from localStorage on mount
     useEffect(() => {
@@ -44,15 +44,9 @@ export function MyStats() {
     }, [selectedDriverId]);
 
     const selectedDriver = allDrivers.find((d) => d.id === selectedDriverId);
-    const classResult = selectedDriverId
-        ? findDriverInClassResults(selectedDriverId, classResults)
-        : null;
-    const paxResult = selectedDriverId
-        ? findDriverInPaxResults(selectedDriverId, paxResults)
-        : null;
-    const rawResult = selectedDriverId
-        ? findDriverInRawResults(selectedDriverId, rawResults)
-        : null;
+    const classResult = selectedDriverId ? findDriverInClassResults(selectedDriverId) : null;
+    const paxResult = selectedDriverId ? findDriverInPaxResults(selectedDriverId) : null;
+    const rawResult = selectedDriverId ? findDriverInRawResults(selectedDriverId) : null;
 
     if (allDrivers.length === 0) {
         return (
@@ -75,11 +69,7 @@ export function MyStats() {
             {selectedDriver && (
                 <>
                     <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
-                        <ClassPositionTimeCard
-                            classResult={classResult}
-                            rawResult={rawResult}
-                            displayMode={displayMode}
-                        />
+                        <ClassPositionTimeCard classResult={classResult} rawResult={rawResult} />
 
                         {rawResult && (
                             <PositionTimeCard
@@ -111,16 +101,10 @@ export function MyStats() {
                                 <ClassTimesVisualization
                                     classResult={classResult}
                                     selectedDriverId={selectedDriverId!}
-                                    classResults={classResults}
-                                    displayMode={displayMode}
                                 />
                             </div>
                             <div className="rounded-lg border p-3 sm:p-4">
-                                <TimesDistributionChart
-                                    selectedDriverId={selectedDriverId!}
-                                    paxResults={paxResults}
-                                    rawResults={rawResults}
-                                />
+                                <TimesDistributionChart selectedDriverId={selectedDriverId!} />
                             </div>
                         </div>
                     )}

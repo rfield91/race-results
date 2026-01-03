@@ -11,7 +11,6 @@ import { EmptyState } from "../shared/empty-state";
 export const WorkRunOrder = () => {
     const { runWork: runWorkData } = useLiveData();
     const [selectedClass, setSelectedClass] = useState<string>("");
-    const [filteredClasses, setFilteredClasses] = useState<string[]>([]);
 
     if (!runWorkData) {
         return <EmptyState message="Run work data not available" />;
@@ -67,38 +66,33 @@ export const WorkRunOrder = () => {
             <WorkRunFilter
                 classes={Object.keys(runWork)}
                 selectedClass={selectedClass}
-                handleSelectClass={(newClass) => {
-                    setFilteredClasses([newClass]);
-                    setSelectedClass(newClass);
-                }}
+                handleSelectClass={setSelectedClass}
             />
-            <div className="mt-4 space-y-2">
-                {filteredClasses.map((c) => {
-                    return (
-                        <Card key={c}>
-                            <CardHeader>
-                                <CardTitle className="text-center tracking-widest">
-                                    {c}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <ValueDisplay
-                                        label="Run"
-                                        value={runWork[c].run}
-                                        size="lg"
-                                    />
-                                    <ValueDisplay
-                                        label="Work"
-                                        value={runWork[c].work}
-                                        size="lg"
-                                    />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    );
-                })}
-            </div>
+            {selectedClass && runWork[selectedClass] && (
+                <div className="mt-4 space-y-2">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-center tracking-widest">
+                                {selectedClass}
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-2 gap-4">
+                                <ValueDisplay
+                                    label="Run"
+                                    value={runWork[selectedClass].run}
+                                    size="lg"
+                                />
+                                <ValueDisplay
+                                    label="Work"
+                                    value={runWork[selectedClass].work}
+                                    size="lg"
+                                />
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
         </div>
     );
 };

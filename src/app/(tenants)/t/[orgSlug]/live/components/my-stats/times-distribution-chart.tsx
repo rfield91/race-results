@@ -12,20 +12,16 @@ import {
     ResponsiveContainer,
     Cell,
 } from "recharts";
-import type { ClassResult, RawResult } from "../../types";
-import { createDriverId } from "./utils";
+import { useLiveData } from "../../hooks/useLiveData";
 
 type TimesDistributionChartProps = {
     selectedDriverId: string;
-    paxResults: ClassResult[] | null;
-    rawResults: RawResult[] | null;
 };
 
 export function TimesDistributionChart({
     selectedDriverId,
-    paxResults,
-    rawResults,
 }: TimesDistributionChartProps) {
+    const { paxResults, rawResults, createDriverId } = useLiveData();
     const [timeType, setTimeType] = useState<"raw" | "pax">("pax");
 
     // Get all drivers based on selected time type

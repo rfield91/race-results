@@ -5,7 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/library/ui/select";
-import type { DriverIdentifier } from "./utils";
+import type { DriverIdentifier } from "../../hooks/useLiveData";
 
 type DriverSelectProps = {
     drivers: DriverIdentifier[];
