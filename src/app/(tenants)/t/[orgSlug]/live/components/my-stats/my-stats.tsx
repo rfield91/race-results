@@ -73,55 +73,57 @@ export function MyStats() {
             )}
 
             {selectedDriver && (
-                <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-                    <ClassPositionTimeCard
-                        classResult={classResult}
-                        rawResult={rawResult}
-                        displayMode={displayMode}
-                    />
-
-                    {rawResult && (
-                        <PositionTimeCard
-                            title="Raw"
-                            position={rawResult.position}
-                            time={rawResult.time}
-                            gapToFirst={rawResult.toFirst}
-                        />
-                    )}
-
-                    {paxResult && (
-                        <PositionTimeCard
-                            title="PAX"
-                            position={paxResult.paxPosition}
-                            time={paxResult.runInfo.paxTime}
-                            gapToFirst={paxResult.runInfo.toFirstInPax}
-                        />
-                    )}
-
-                    <RunStatisticsCard classResult={classResult} rawResult={rawResult} />
-                </div>
-            )}
-
-            {selectedDriver && classResult && (
                 <>
-                    <div className="rounded-lg border p-3 sm:p-4">
-                        <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold">
-                            Class Times Visualization
-                        </h3>
-                        <ClassTimesVisualization
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
+                        <ClassPositionTimeCard
                             classResult={classResult}
-                            selectedDriverId={selectedDriverId!}
-                            classResults={classResults}
+                            rawResult={rawResult}
                             displayMode={displayMode}
                         />
+
+                        {rawResult && (
+                            <PositionTimeCard
+                                title="Raw"
+                                position={rawResult.position}
+                                time={rawResult.time}
+                                gapToFirst={rawResult.toFirst}
+                            />
+                        )}
+
+                        {paxResult && (
+                            <PositionTimeCard
+                                title="PAX"
+                                position={paxResult.paxPosition}
+                                time={paxResult.runInfo.paxTime}
+                                gapToFirst={paxResult.runInfo.toFirstInPax}
+                            />
+                        )}
+
+                        <RunStatisticsCard classResult={classResult} rawResult={rawResult} />
                     </div>
-                    <div className="rounded-lg border p-3 sm:p-4">
-                        <TimesDistributionChart
-                            selectedDriverId={selectedDriverId!}
-                            paxResults={paxResults}
-                            rawResults={rawResults}
-                        />
-                    </div>
+
+                    {classResult && (
+                        <div className="grid gap-6 lg:grid-cols-2">
+                            <div className="rounded-lg border p-3 sm:p-4">
+                                <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold">
+                                    Class Times Visualization
+                                </h3>
+                                <ClassTimesVisualization
+                                    classResult={classResult}
+                                    selectedDriverId={selectedDriverId!}
+                                    classResults={classResults}
+                                    displayMode={displayMode}
+                                />
+                            </div>
+                            <div className="rounded-lg border p-3 sm:p-4">
+                                <TimesDistributionChart
+                                    selectedDriverId={selectedDriverId!}
+                                    paxResults={paxResults}
+                                    rawResults={rawResults}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
 
