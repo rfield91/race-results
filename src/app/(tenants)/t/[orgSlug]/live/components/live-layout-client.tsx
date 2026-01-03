@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useParams } from "next/navigation";
+import { usePathname, useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/library/ui/button";
+import { RefreshCw } from "lucide-react";
 import { getNavigationPages } from "../lib/navigation";
+import { useState } from "react";
 
 export function LiveLayoutClient({
     children,
@@ -12,35 +14,54 @@ export function LiveLayoutClient({
 }) {
     const pathname = usePathname();
     const params = useParams();
+    const router = useRouter();
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const orgSlug = params.orgSlug as string;
     const basePath = `/t/${orgSlug}/live`;
     const navigationPages = getNavigationPages(basePath);
 
+    const handleRefresh = async () => {
+        setIsRefreshing(true);
+        router.refresh();
+        // Reset loading state after a short delay to allow refresh to complete
+        setTimeout(() => setIsRefreshing(false), 1000);
+    };
+
     return (
-        <div className="flex flex-col items-center justify-center">
-            <div className="my-4 flex flex-row items-center gap-2 text-2xl font-bold">
-                <span className="text-orange-500">🏁</span>
-                Live Timing
-            </div>
-            <nav className="mb-4 flex flex-wrap items-center justify-center gap-2">
-                {navigationPages.map((page) => {
-                    const isActive =
-                        pathname === page.link ||
-                        (page.link === basePath && pathname === basePath);
-                    return (
-                        <Button
-                            key={page.link}
-                            variant={isActive ? "default" : "outline"}
-                            size="sm"
-                            asChild
-                        >
-                            <Link href={page.link}>{page.name}</Link>
-                        </Button>
-                    );
-                })}
+        <div className="flex flex-col items-center justify-center pb-[100px]">
+            <nav className="mb-2 mt-4 flex flex-wrap items-center justify-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                    {navigationPages.map((page) => {
+                        const isActive =
+                            pathname === page.link ||
+                            (page.link === basePath && pathname === basePath);
+                        return (
+                            <Button
+                                key={page.link}
+                                variant={isActive ? "default" : "outline"}
+                                size="sm"
+                                asChild
+                            >
+                                <Link href={page.link}>{page.name}</Link>
+                            </Button>
+                        );
+                    })}
+                </div>
+                <div className="mx-2 h-6 w-px" />
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleRefresh}
+                    disabled={isRefreshing}
+                    className="h-8 w-8 p-0"
+                    title="Refresh data"
+                >
+                    <RefreshCw
+                        className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+                    />
+                </Button>
             </nav>
-            <div className="w-full max-w-7xl px-4">{children}</div>
+            <div className="mt-4 w-full max-w-7xl px-4">{children}</div>
         </div>
     );
 }
-

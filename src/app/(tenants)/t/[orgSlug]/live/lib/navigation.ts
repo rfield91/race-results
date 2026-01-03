@@ -24,6 +24,9 @@ export function getNavigationPages(basePath: string): NavigationPage[] {
             name: "Work/Run",
             link: `${basePath}/workrun`,
         },
+        {
+            name: "Me",
+            link: `${basePath}/me`,
+        },
     ];
 }
-

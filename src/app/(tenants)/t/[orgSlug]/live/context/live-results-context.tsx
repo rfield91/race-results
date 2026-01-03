@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import type {
     ClassResult,
     DisplayMode,
@@ -35,16 +35,19 @@ export function LiveResultsProvider({
     displayMode,
     children,
 }: LiveResultsProviderProps) {
+    const value = useMemo(
+        () => ({
+            classResults,
+            paxResults,
+            rawResults,
+            runWork,
+            displayMode,
+        }),
+        [classResults, paxResults, rawResults, runWork, displayMode]
+    );
+
     return (
-        <LiveResultsContext.Provider
-            value={{
-                classResults,
-                paxResults,
-                rawResults,
-                runWork,
-                displayMode,
-            }}
-        >
+        <LiveResultsContext.Provider value={value}>
             {children}
         </LiveResultsContext.Provider>
     );
