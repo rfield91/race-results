@@ -1,63 +1,52 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useTransition } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useLiveData } from "../../hooks/useLiveData";
 import { ClassLinks } from "./class-links";
 import { IndividualClassResults } from "./individual-class-results";
 import { EmptyState } from "../shared/empty-state";
 
-const STORAGE_KEY = "class-filter-selection";
-
 export const ClassResults = () => {
     const { classResults, classNames, displayMode } = useLiveData();
-    const [filteredClasses, setFilteredClasses] = useState<string[]>([]);
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const [, startTransition] = useTransition();
 
-    // Load filtered classes from localStorage on mount
-    useEffect(() => {
-        if (typeof window !== "undefined" && classNames.length > 0) {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                try {
-                    const parsed = JSON.parse(stored) as string[];
-                    // Only restore filters that still exist in current classNames
-                    const validFilters = parsed.filter((c) => classNames.includes(c));
-                    if (validFilters.length > 0) {
-                        setFilteredClasses(validFilters);
-                    }
-                } catch (e) {
-                    // Invalid JSON, ignore
-                }
-            }
-        }
-    }, [classNames]);
+    // Get filtered classes from URL search params
+    const filteredClasses = searchParams.get("classes")
+        ? searchParams.get("classes")!.split(",").filter((c) => classNames.includes(c))
+        : [];
 
-    // Save to localStorage when filteredClasses changes
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            if (filteredClasses.length > 0) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredClasses));
-            } else {
-                localStorage.removeItem(STORAGE_KEY);
-            }
+    // Update URL when filters change
+    const updateFilters = (newFilters: string[]) => {
+        const params = new URLSearchParams(searchParams.toString());
+        if (newFilters.length > 0) {
+            params.set("classes", newFilters.join(","));
+        } else {
+            params.delete("classes");
         }
-    }, [filteredClasses]);
+        startTransition(() => {
+            router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+        });
+    };
 
     if (!classResults) {
         return <EmptyState message="No results available" />;
     }
 
     const handleFilteredClasses = (toggleClass: string) => {
-        setFilteredClasses((prev) => {
-            const index = prev.indexOf(toggleClass);
-            if (index === -1) {
-                return [...prev, toggleClass];
-            }
-            return prev.filter((c) => c !== toggleClass);
-        });
+        const index = filteredClasses.indexOf(toggleClass);
+        if (index === -1) {
+            updateFilters([...filteredClasses, toggleClass]);
+        } else {
+            updateFilters(filteredClasses.filter((c) => c !== toggleClass));
+        }
     };
 
     const clearFilteredClasses = () => {
-        setFilteredClasses([]);
+        updateFilters([]);
     };
 
     const classResultsElements = classNames
