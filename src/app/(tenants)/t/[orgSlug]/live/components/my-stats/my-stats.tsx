@@ -1,0 +1,135 @@
+"use client";
+
+import { useEffect, useState, useMemo } from "react";
+import { useLiveData } from "../../hooks/useLiveData";
+import {
+    getAllDrivers,
+    findDriverInClassResults,
+    findDriverInPaxResults,
+    findDriverInRawResults,
+} from "./utils";
+import { DriverSelect } from "./driver-select";
+import { ClassPositionTimeCard } from "./class-position-time-card";
+import { PositionTimeCard } from "./position-time-card";
+import { RunStatisticsCard } from "./run-statistics-card";
+import { ClassTimesVisualization } from "./class-times-visualization";
+import { TimesDistributionChart } from "./times-distribution-chart";
+
+const STORAGE_KEY = "selected-driver-id";
+
+export function MyStats() {
+    const { classResults, paxResults, rawResults, displayMode } = useLiveData();
+    const [selectedDriverId, setSelectedDriverId] = useState<string | null>(null);
+
+    const allDrivers = useMemo(
+        () => getAllDrivers(classResults, paxResults, rawResults),
+        [classResults, paxResults, rawResults]
+    );
+
+    // Load selected driver from localStorage on mount
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored && allDrivers.some((d) => d.id === stored)) {
+                setSelectedDriverId(stored);
+            }
+        }
+    }, [allDrivers]);
+
+    // Save to localStorage when selection changes
+    useEffect(() => {
+        if (selectedDriverId && typeof window !== "undefined") {
+            localStorage.setItem(STORAGE_KEY, selectedDriverId);
+        }
+    }, [selectedDriverId]);
+
+    const selectedDriver = allDrivers.find((d) => d.id === selectedDriverId);
+    const classResult = selectedDriverId
+        ? findDriverInClassResults(selectedDriverId, classResults)
+        : null;
+    const paxResult = selectedDriverId
+        ? findDriverInPaxResults(selectedDriverId, paxResults)
+        : null;
+    const rawResult = selectedDriverId
+        ? findDriverInRawResults(selectedDriverId, rawResults)
+        : null;
+
+    if (allDrivers.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center p-8 text-center">
+                <p className="text-muted-foreground">No drivers found in results</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="space-y-6">
+            {!selectedDriver && (
+                <div className="flex flex-col items-center justify-center rounded-lg border p-8 text-center">
+                    <p className="text-muted-foreground">
+                        Please select your name from the dropdown below to view your stats.
+                    </p>
+                </div>
+            )}
+
+            {selectedDriver && (
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+                    <ClassPositionTimeCard
+                        classResult={classResult}
+                        rawResult={rawResult}
+                        displayMode={displayMode}
+                    />
+
+                    {rawResult && (
+                        <PositionTimeCard
+                            title="Raw"
+                            position={rawResult.position}
+                            time={rawResult.time}
+                            gapToFirst={rawResult.toFirst}
+                        />
+                    )}
+
+                    {paxResult && (
+                        <PositionTimeCard
+                            title="PAX"
+                            position={paxResult.paxPosition}
+                            time={paxResult.runInfo.paxTime}
+                            gapToFirst={paxResult.runInfo.toFirstInPax}
+                        />
+                    )}
+
+                    <RunStatisticsCard classResult={classResult} rawResult={rawResult} />
+                </div>
+            )}
+
+            {selectedDriver && classResult && (
+                <>
+                    <div className="rounded-lg border p-3 sm:p-4">
+                        <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold">
+                            Class Times Visualization
+                        </h3>
+                        <ClassTimesVisualization
+                            classResult={classResult}
+                            selectedDriverId={selectedDriverId!}
+                            classResults={classResults}
+                            displayMode={displayMode}
+                        />
+                    </div>
+                    <div className="rounded-lg border p-3 sm:p-4">
+                        <TimesDistributionChart
+                            selectedDriverId={selectedDriverId!}
+                            paxResults={paxResults}
+                            rawResults={rawResults}
+                        />
+                    </div>
+                </>
+            )}
+
+            <DriverSelect
+                drivers={allDrivers}
+                selectedDriverId={selectedDriverId}
+                onDriverChange={setSelectedDriverId}
+            />
+        </div>
+    );
+}

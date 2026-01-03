@@ -1,14 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLiveData } from "../../hooks/useLiveData";
 import { ClassLinks } from "./class-links";
 import { IndividualClassResults } from "./individual-class-results";
 import { EmptyState } from "../shared/empty-state";
 
+const STORAGE_KEY = "class-filter-selection";
+
 export const ClassResults = () => {
     const { classResults, classNames, displayMode } = useLiveData();
     const [filteredClasses, setFilteredClasses] = useState<string[]>([]);
+
+    // Load filtered classes from localStorage on mount
+    useEffect(() => {
+        if (typeof window !== "undefined" && classNames.length > 0) {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    const parsed = JSON.parse(stored) as string[];
+                    // Only restore filters that still exist in current classNames
+                    const validFilters = parsed.filter((c) => classNames.includes(c));
+                    if (validFilters.length > 0) {
+                        setFilteredClasses(validFilters);
+                    }
+                } catch (e) {
+                    // Invalid JSON, ignore
+                }
+            }
+        }
+    }, [classNames]);
+
+    // Save to localStorage when filteredClasses changes
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            if (filteredClasses.length > 0) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredClasses));
+            } else {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        }
+    }, [filteredClasses]);
 
     if (!classResults) {
         return <EmptyState message="No results available" />;
@@ -53,4 +85,3 @@ export const ClassResults = () => {
         </div>
     );
 };
-
