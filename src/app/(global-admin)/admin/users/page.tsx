@@ -1,4 +1,4 @@
-import { LinkButton } from "@/components/link-button/link-button";
+import { LinkButton } from "@/ui/link-button";
 import {
     Table,
     TableBody,
@@ -6,7 +6,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/library/ui/table";
+} from "@/ui/table";
 import { userService } from "@/services/users/user.service";
 import { PencilIcon } from "lucide-react";
 
@@ -15,6 +15,7 @@ export default async function Page() {
 
     return (
         <div className="flex w-full flex-col gap-4">
+            <h1 className="text-2xl font-semibold">Users</h1>
             <Table>
                 <TableHeader>
                     <TableRow>

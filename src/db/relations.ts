@@ -2,6 +2,23 @@ import { defineRelations } from "drizzle-orm";
 import * as schema from "./schema";
 
 export const relations = defineRelations(schema, (r) => ({
+    orgs: {
+        featureFlags: r.many.featureFlags({
+            from: r.orgs.orgId,
+            to: r.featureFlags.orgId,
+        }),
+        orgApiKeys: r.many.orgApiKeys({
+            from: r.orgs.orgId,
+            to: r.orgApiKeys.orgId,
+        }),
+    },
+    featureFlags: {
+        org: r.one.orgs({
+            from: r.featureFlags.orgId,
+            to: r.orgs.orgId,
+            optional: false,
+        }),
+    },
     users: {
         assignedOrgRoles: r.many.userOrgRoles({
             from: r.users.userId,
@@ -39,12 +56,6 @@ export const relations = defineRelations(schema, (r) => ({
             from: r.userGlobalRoles.roleId,
             to: r.roles.roleId,
             optional: false,
-        }),
-    },
-    orgs: {
-        orgApiKeys: r.many.orgApiKeys({
-            from: r.orgs.orgId,
-            to: r.orgApiKeys.orgId,
         }),
     },
     orgApiKeys: {

@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname, useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/library/ui/button";
+import { Button } from "@/ui/button";
 import { RefreshCw } from "lucide-react";
 import { getNavigationPages } from "../lib/navigation";
+import { useLiveData } from "../hooks/useLiveData";
 import { useState } from "react";
 
 export function LiveLayoutClient({
@@ -15,10 +16,11 @@ export function LiveLayoutClient({
     const pathname = usePathname();
     const params = useParams();
     const router = useRouter();
+    const { featureFlags } = useLiveData();
     const [isRefreshing, setIsRefreshing] = useState(false);
     const orgSlug = params.orgSlug as string;
     const basePath = `/t/${orgSlug}/live`;
-    const navigationPages = getNavigationPages(basePath);
+    const navigationPages = getNavigationPages(basePath, featureFlags);
 
     const handleRefresh = async () => {
         setIsRefreshing(true);
@@ -29,7 +31,7 @@ export function LiveLayoutClient({
 
     return (
         <div className="flex flex-col items-center justify-center pb-[100px]">
-            <nav className="mb-2 mt-4 flex flex-wrap items-center justify-center gap-2">
+            <nav className="mb-2 mt-4 flex w-full max-w-7xl items-center justify-between gap-2 px-4">
                 <div className="flex flex-wrap items-center gap-2">
                     {navigationPages.map((page) => {
                         const isActive =
@@ -47,7 +49,6 @@ export function LiveLayoutClient({
                         );
                     })}
                 </div>
-                <div className="mx-2 h-6 w-px" />
                 <Button
                     variant="outline"
                     size="sm"

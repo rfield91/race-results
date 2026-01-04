@@ -7,6 +7,7 @@ import {
     UpdateOrgDTO,
 } from "@/dto/organizations";
 import { ValidationError } from "@/lib/errors/app-errors";
+import { featureFlagsService } from "@/services/feature-flags/feature-flags.service";
 
 interface IOrganizationAdminService {
     getAll(): Promise<OrganizationExtended[]>;
@@ -74,7 +75,17 @@ export class OrganizationAdminService implements IOrganizationAdminService {
             );
         }
 
-        return await organizationsAdminRepository.update(dto);
+        const slug = await organizationsAdminRepository.update(dto);
+
+        // Update feature flags if provided
+        if (dto.featureFlags) {
+            await featureFlagsService.updateOrgFeatureFlags(
+                dto.orgId,
+                dto.featureFlags
+            );
+        }
+
+        return slug;
     }
 
     async deleteOrganization(orgId: string): Promise<void> {

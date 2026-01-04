@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/library/ui/button";
+import { Button } from "@/ui/button";
 
 type FilterButtonsProps = {
     items: string[];

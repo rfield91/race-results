@@ -38,7 +38,7 @@ export function ClassTimesVisualization({
             })
             .filter((d) => d.time != null && !isNaN(d.time))
             .sort((a, b) => a.time - b.time);
-    }, [classResult, classResults, selectedDriverId, displayMode]);
+    }, [classResult, classResults, selectedDriverId, displayMode, createDriverId]);
 
     if (classDrivers.length === 0) {
         return <p className="text-sm text-muted-foreground">No times available</p>;

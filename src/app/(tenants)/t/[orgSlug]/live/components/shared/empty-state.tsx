@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/library/ui/card";
+import { Card, CardContent } from "@/ui/card";
 
 type EmptyStateProps = {
     message?: string;

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useLiveData } from "../../hooks/useLiveData";
+import { FEATURE_FLAGS } from "../../lib/feature-flags";
 import { DriverSelect } from "./driver-select";
 import { ClassPositionTimeCard } from "./class-position-time-card";
 import { PositionTimeCard } from "./position-time-card";
@@ -13,37 +14,37 @@ const STORAGE_KEY = "selected-driver-id";
 
 export function MyStats() {
     const {
-        classResults,
-        paxResults,
-        rawResults,
-        displayMode,
+        featureFlags,
         getAllDrivers,
         findDriverInClassResults,
         findDriverInPaxResults,
         findDriverInRawResults,
     } = useLiveData();
-    const [selectedDriverId, setSelectedDriverId] = useState<string | null>(
-        null
-    );
 
     const allDrivers = useMemo(() => getAllDrivers(), [getAllDrivers]);
 
-    // Load selected driver from localStorage on mount
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored && allDrivers.some((d) => d.id === stored)) {
-                setSelectedDriverId(stored);
-            }
+    // Get valid stored driver ID from localStorage
+    const getStoredDriverId = () => {
+        if (typeof window === "undefined" || allDrivers.length === 0) return null;
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && allDrivers.some((d) => d.id === stored)) {
+            return stored;
         }
-    }, [allDrivers]);
+        return null;
+    };
 
-    // Save to localStorage when selection changes
+    // Use state for user selection, but derive initial value from localStorage
+    const [userSelectedDriverId, setUserSelectedDriverId] = useState<string | null>(null);
+    
+    // The actual selected driver ID: user selection takes precedence, otherwise use stored value
+    const selectedDriverId = userSelectedDriverId ?? getStoredDriverId();
+
+    // Save to localStorage when user selection changes
     useEffect(() => {
-        if (selectedDriverId && typeof window !== "undefined") {
-            localStorage.setItem(STORAGE_KEY, selectedDriverId);
+        if (userSelectedDriverId && typeof window !== "undefined") {
+            localStorage.setItem(STORAGE_KEY, userSelectedDriverId);
         }
-    }, [selectedDriverId]);
+    }, [userSelectedDriverId]);
 
     const selectedDriver = allDrivers.find((d) => d.id === selectedDriverId);
     const classResult = selectedDriverId
@@ -94,14 +95,15 @@ export function MyStats() {
                             />
                         )}
 
-                        {paxResult && (
-                            <PositionTimeCard
-                                title="PAX"
-                                position={paxResult.paxPosition}
-                                time={paxResult.runInfo.paxTime}
-                                gapToFirst={paxResult.runInfo.toFirstInPax}
-                            />
-                        )}
+                        {paxResult &&
+                            featureFlags[FEATURE_FLAGS.PAX_ENABLED] && (
+                                <PositionTimeCard
+                                    title="PAX"
+                                    position={paxResult.paxPosition}
+                                    time={paxResult.runInfo.paxTime}
+                                    gapToFirst={paxResult.runInfo.toFirstInPax}
+                                />
+                            )}
 
                         <RunStatisticsCard
                             classResult={classResult}
@@ -133,7 +135,7 @@ export function MyStats() {
             <DriverSelect
                 drivers={allDrivers}
                 selectedDriverId={selectedDriverId}
-                onDriverChange={setSelectedDriverId}
+                onDriverChange={setUserSelectedDriverId}
             />
         </div>
     );

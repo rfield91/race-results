@@ -1,5 +1,5 @@
-import { ApiKeyManagement } from "@/components/admin/organizations/api-key-management/api-key-management";
-import { UpdateOrgForm } from "@/components/admin/organizations/update-org-form";
+import { ApiKeyManagement } from "@/app/(global-admin)/admin/components/organizations/api-key-management/api-key-management";
+import { UpdateOrgForm } from "@/app/(global-admin)/admin/components/organizations/update-org-form";
 import {
     Empty,
     EmptyContent,
@@ -7,9 +7,10 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
-} from "@/components/library/ui/empty";
-import { LinkButton } from "@/components/link-button/link-button";
+} from "@/ui/empty";
+import { LinkButton } from "@/ui/link-button";
 import { organizationAdminService } from "@/services/organizations/organization.admin.service";
+import { featureFlagsService } from "@/services/feature-flags/feature-flags.service";
 import { TriangleAlert } from "lucide-react";
 
 export default async function Page({
@@ -39,15 +40,16 @@ export default async function Page({
         );
     }
 
+    const featureFlags = await featureFlagsService.getOrgFeatureFlags(org.orgId);
+
     return (
-        <div>
-            <div className="mt-4 flex flex-col gap-4">
-                <div>
-                    <LinkButton href="/admin/organizations">Go Back</LinkButton>
-                </div>
-                <UpdateOrgForm org={org} />
-                <ApiKeyManagement org={org} />
+        <div className="flex w-full flex-col gap-4">
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">{org.name}</h1>
+                <LinkButton href="/admin/organizations">Go Back</LinkButton>
             </div>
+            <UpdateOrgForm org={org} featureFlags={featureFlags} />
+            <ApiKeyManagement org={org} />
         </div>
     );
 }
