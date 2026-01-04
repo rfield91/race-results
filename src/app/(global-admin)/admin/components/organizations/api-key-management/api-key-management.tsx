@@ -3,17 +3,17 @@
 import {
     ApiKeyManagementProvider,
     useApiKeyManagementContext,
-} from "@/components/admin/organizations/api-key-management/api-key-management-context";
-import { CurrentApiKeyDisplay } from "@/components/admin/organizations/api-key-management/current-api-key-display";
-import { KeyControlPanel } from "@/components/admin/organizations/api-key-management/key-control-panel";
-import { PreviousApiKeysTable } from "@/components/admin/organizations/api-key-management/previous-api-keys-table";
-import { Button } from "@/components/library/ui/button";
+} from "./api-key-management-context";
+import { CurrentApiKeyDisplay } from "./current-api-key-display";
+import { KeyControlPanel } from "./key-control-panel";
+import { PreviousApiKeysTable } from "./previous-api-keys-table";
+import { Button } from "@/ui/button";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
-} from "@/components/library/ui/card";
+} from "@/ui/card";
 import {
     Empty,
     EmptyContent,
@@ -21,7 +21,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
-} from "@/components/library/ui/empty";
+} from "@/ui/empty";
 import { OrganizationExtended } from "@/dto/organizations";
 import { RefreshCw, TriangleAlert } from "lucide-react";
 

@@ -2,10 +2,10 @@ import { userService } from "@/services/users/user.service";
 import { ROLES } from "@/dto/users";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button } from "@/components/library/ui/button";
+import { Button } from "@/ui/button";
 import { TenantProvider } from "@/context/TenantContext";
 import { tenantService } from "@/services/tenants/tenant.service";
-import { Separator } from "@/components/library/ui/separator";
+import { Separator } from "@/ui/separator";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { CgMediaLive } from "react-icons/cg";
 

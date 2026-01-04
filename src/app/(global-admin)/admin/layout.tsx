@@ -1,4 +1,4 @@
-import { ConfigurationLayout } from "@/components/shared/layout/configuration-layout";
+import { ConfigurationLayout } from "@/app/components/shared/layout/configuration-layout";
 import { userService } from "@/services/users/user.service";
 import { ROLES } from "@/dto/users";
 import { filterNavForRoles } from "@/lib/shared/layout/configuration/navigation";

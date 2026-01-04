@@ -3,7 +3,7 @@ import {
     InputGroupAddon,
     InputGroupButton,
     InputGroupInput,
-} from "@/components/library/ui/input-group";
+} from "@/ui/input-group";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { formatWithDateAndTime } from "@/lib/date-format";
 import { CircleCheck, Copy, CopyCheck, TriangleAlert } from "lucide-react";

@@ -1,18 +1,18 @@
 "use client";
 
 import { updateOrganization } from "@/app/actions/organization.actions";
-import { Button } from "@/components/library/ui/button";
+import { Button } from "@/ui/button";
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
-} from "@/components/library/ui/card";
-import { Checkbox } from "@/components/library/ui/checkbox";
+} from "@/ui/card";
+import { Checkbox } from "@/ui/checkbox";
 
-import { Field, FieldGroup, FieldLabel } from "@/components/library/ui/field";
-import { Input } from "@/components/library/ui/input";
-import { Textarea } from "@/components/library/ui/textarea";
+import { Field, FieldGroup, FieldLabel } from "@/ui/field";
+import { Input } from "@/ui/input";
+import { Textarea } from "@/ui/textarea";
 
 import { OrganizationExtended } from "@/dto/organizations";
 import { OrgFeatureFlags } from "@/dto/feature-flags";

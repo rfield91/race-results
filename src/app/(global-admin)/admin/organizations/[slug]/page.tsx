@@ -1,5 +1,5 @@
-import { ApiKeyManagement } from "@/components/admin/organizations/api-key-management/api-key-management";
-import { UpdateOrgForm } from "@/components/admin/organizations/update-org-form";
+import { ApiKeyManagement } from "@/app/(global-admin)/admin/components/organizations/api-key-management/api-key-management";
+import { UpdateOrgForm } from "@/app/(global-admin)/admin/components/organizations/update-org-form";
 import {
     Empty,
     EmptyContent,
@@ -7,8 +7,8 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
-} from "@/components/library/ui/empty";
-import { LinkButton } from "@/components/link-button/link-button";
+} from "@/ui/empty";
+import { LinkButton } from "@/ui/link-button";
 import { organizationAdminService } from "@/services/organizations/organization.admin.service";
 import { featureFlagsService } from "@/services/feature-flags/feature-flags.service";
 import { TriangleAlert } from "lucide-react";

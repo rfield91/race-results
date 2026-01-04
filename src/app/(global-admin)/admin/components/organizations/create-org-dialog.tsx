@@ -1,7 +1,7 @@
 "use client";
 
 import { createOrganization } from "@/app/actions/organization.actions";
-import { Button } from "@/components/button/button";
+import { Button } from "@/ui/button-wrapper";
 import {
     Dialog,
     DialogClose,
@@ -9,9 +9,9 @@ import {
     DialogFooter,
     DialogTitle,
     DialogTrigger,
-} from "@/components/library/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "@/components/library/ui/field";
-import { Input } from "@/components/library/ui/input";
+} from "@/ui/dialog";
+import { Field, FieldGroup, FieldLabel } from "@/ui/field";
+import { Input } from "@/ui/input";
 import { OrganizationExtended } from "@/dto/organizations";
 import { nameof } from "@/lib/utils";
 import { ReactElement, useActionState } from "react";

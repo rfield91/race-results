@@ -1,13 +1,13 @@
-import { CreateOrgDialog } from "@/components/admin/organizations/create-org-dialog";
-import { OrganizationEntry } from "@/components/admin/organizations/organization-entry";
-import { Button } from "@/components/button/button";
+import { CreateOrgDialog } from "@/app/(global-admin)/admin/components/organizations/create-org-dialog";
+import { OrganizationEntry } from "@/app/(global-admin)/admin/components/organizations/organization-entry";
+import { Button } from "@/ui/button-wrapper";
 import {
     Table,
     TableBody,
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/library/ui/table";
+} from "@/ui/table";
 import { organizationAdminService } from "@/services/organizations/organization.admin.service";
 import { PlusIcon } from "lucide-react";
 

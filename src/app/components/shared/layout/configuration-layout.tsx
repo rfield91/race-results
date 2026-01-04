@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider } from "@/components/library/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/ui/sidebar";
 import { NavGroup } from "@/lib/shared/layout/configuration/navigation";
 import { SidebarNavigation } from "./sidebar-navigation";
 

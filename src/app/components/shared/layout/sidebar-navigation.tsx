@@ -9,7 +9,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/library/ui/sidebar";
+} from "@/ui/sidebar";
 import { NavGroup } from "@/lib/shared/layout/configuration/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

@@ -9,8 +9,8 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/library/ui/table";
-import { Button } from "@/components/library/ui/button";
+} from "@/ui/table";
+import { Button } from "@/ui/button";
 import { ExternalLinkIcon, CalendarIcon } from "lucide-react";
 
 function formatDate(dateString: string): string {

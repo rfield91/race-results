@@ -3,11 +3,11 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/library/ui/card";
+} from "@/ui/card";
 import { organizationService } from "@/services/organizations/organization.service";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/library/ui/button";
+import { Button } from "@/ui/button";
 import {
     ArrowRightIcon,
     CalendarIcon,
@@ -16,7 +16,7 @@ import {
     SortAscIcon,
     UsersIcon,
 } from "lucide-react";
-import { Input } from "@/components/library/ui/input";
+import { Input } from "@/ui/input";
 
 export default async function Page() {
     const orgs = await organizationService.getAllOrganizations();

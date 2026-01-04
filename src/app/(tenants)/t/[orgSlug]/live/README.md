@@ -102,7 +102,7 @@ This PR introduces a comprehensive live timing system for race events, allowing 
 ### New Directories
 ```
 live/
-├── api/              # Data fetching functions
+├── data/             # Data fetching utilities
 ├── components/       # React components
 │   ├── class-results/
 │   ├── my-stats/
@@ -159,6 +159,8 @@ live/
 ### UI Components
 - Enhanced Badge component
 - New shared components library
+- Design system components moved to top-level `/src/ui/` directory
+- Page-centric organization: components live alongside their pages
 
 ## 🧪 Testing Considerations
 
@@ -183,6 +185,8 @@ live/
 - New live timing API endpoints must be configured
 - Context provider wraps all live timing pages
 - Server-side data fetching in layout component
+- **Component Organization**: Live timing components are page-centric, located at `app/(tenants)/t/[orgSlug]/live/components/`
+- **Design System**: UI components imported from `@/ui/*` (top-level design system)
 
 ## 📝 Technical Details
 

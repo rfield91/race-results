@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useLiveData } from "../../hooks/useLiveData";
 import { WorkRunFilter } from "./work-run-filter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/library/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/card";
 import { isToday } from "../../utils/is-today";
 import { ValueDisplay } from "../shared/value-display";
 import { EmptyState } from "../shared/empty-state";

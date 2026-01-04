@@ -1,12 +1,10 @@
 import { db, featureFlags } from "@/db";
 import {
-    CreateFeatureFlagDTO,
     FeatureFlagDTO,
     OrgFeatureFlags,
     UpdateFeatureFlagDTO,
 } from "@/dto/feature-flags";
 import { DatabaseError } from "@/lib/errors/app-errors";
-import { and, eq, isNull } from "drizzle-orm";
 
 interface IFeatureFlagsRepository {
     findByOrgId(orgId: string): Promise<OrgFeatureFlags>;

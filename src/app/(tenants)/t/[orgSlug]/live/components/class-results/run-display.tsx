@@ -1,5 +1,5 @@
 import type { Run } from "../../types";
-import { Badge } from "@/components/library/ui/badge";
+import { Badge } from "@/ui/badge";
 import { cn } from "@/lib/utils";
 import { formatRunTime } from "../shared/time-utils";
 

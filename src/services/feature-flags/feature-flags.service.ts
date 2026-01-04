@@ -1,8 +1,5 @@
 import { featureFlagsRepository } from "@/db/repositories/feature-flags.repo";
-import {
-    OrgFeatureFlags,
-    UpdateFeatureFlagDTO,
-} from "@/dto/feature-flags";
+import { OrgFeatureFlags } from "@/dto/feature-flags";
 
 interface IFeatureFlagsService {
     getOrgFeatureFlags(orgId: string): Promise<OrgFeatureFlags>;

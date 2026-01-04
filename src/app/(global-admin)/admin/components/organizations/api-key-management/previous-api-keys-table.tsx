@@ -6,7 +6,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/library/ui/table";
+} from "@/ui/table";
 import { API_KEY_PREFIX } from "@/lib/auth/generate-api-key";
 import { formatWithDateAndTime } from "@/lib/date-format";
 import { mask } from "@/lib/mask";

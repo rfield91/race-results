@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
-import { Button } from "@/components/library/ui/button";
+import { useMemo, useState } from "react";
+import { Button } from "@/ui/button";
 import {
     ComposedChart,
     Bar,
@@ -24,16 +24,10 @@ export function TimesDistributionChart({
 }: TimesDistributionChartProps) {
     const { paxResults, rawResults, featureFlags, createDriverId } = useLiveData();
     const isPaxEnabled = featureFlags[FEATURE_FLAGS.PAX_ENABLED] === true;
-    const [timeType, setTimeType] = useState<"raw" | "pax">(
-        isPaxEnabled ? "pax" : "raw"
-    );
-
-    // Reset to "raw" if PAX becomes disabled
-    useEffect(() => {
-        if (!isPaxEnabled && timeType === "pax") {
-            setTimeType("raw");
-        }
-    }, [isPaxEnabled, timeType]);
+    
+    // When PAX is disabled, always use "raw". When enabled, allow user selection.
+    const [userSelectedTimeType, setUserSelectedTimeType] = useState<"raw" | "pax">("pax");
+    const timeType = isPaxEnabled ? userSelectedTimeType : "raw";
 
     // Get all drivers based on selected time type
     const chartData = useMemo(() => {
@@ -145,14 +139,14 @@ export function TimesDistributionChart({
                         <Button
                             variant={timeType === "pax" ? "default" : "outline"}
                             size="sm"
-                            onClick={() => setTimeType("pax")}
+                            onClick={() => setUserSelectedTimeType("pax")}
                         >
                             PAX
                         </Button>
                         <Button
                             variant={timeType === "raw" ? "default" : "outline"}
                             size="sm"
-                            onClick={() => setTimeType("raw")}
+                            onClick={() => setUserSelectedTimeType("raw")}
                         >
                             Raw
                         </Button>

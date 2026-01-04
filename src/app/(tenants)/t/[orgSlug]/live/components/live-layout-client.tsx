@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/library/ui/button";
+import { Button } from "@/ui/button";
 import { RefreshCw } from "lucide-react";
 import { getNavigationPages } from "../lib/navigation";
 import { useLiveData } from "../hooks/useLiveData";

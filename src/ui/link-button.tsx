@@ -1,4 +1,4 @@
-import { Button } from "@/components/button/button";
+import { Button } from "@/ui/button-wrapper";
 import Link from "next/link";
 import { ComponentProps } from "react";
 

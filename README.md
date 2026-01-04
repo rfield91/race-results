@@ -41,10 +41,18 @@ This platform enables motorsports organizations to:
   - Organization management
   - User management
   - Feature flag configuration per organization
+  - API key management for organizations
 - **Tenant Admin** - Organization-specific administration
   - Organization settings
   - User management within organization
   - Feature flag toggles (PAX Results, Work/Run Order)
+
+### API Access
+- **API Key Management** - Secure API access for organizations
+  - Generate and manage API keys per organization
+  - Enable/disable API access
+  - View API key history
+  - Secure key validation for API requests
 
 ## 🏗️ Architecture
 
@@ -62,26 +70,49 @@ This platform enables motorsports organizations to:
 
 ### Project Structure
 
+The project follows a **page-centric architecture** where components are organized near the pages that use them, with design system components at the top level.
+
 ```
 src/
-├── app/                          # Next.js App Router
-│   ├── (global-admin)/          # Global admin routes
+├── ui/                          # Design system components (top level)
+│   ├── button.tsx              # Base UI components
+│   ├── button-wrapper.tsx      # Wrapper components
+│   ├── link-button.tsx
+│   ├── card.tsx
+│   ├── dialog.tsx
+│   └── ...                     # All design system components
+├── app/                         # Next.js App Router
+│   ├── (global-admin)/         # Global admin routes
 │   │   └── admin/
+│   │       ├── components/     # Admin page components
+│   │       │   └── organizations/
+│   │       │       ├── api-key-management/  # API key management UI
+│   │       │       ├── create-org-dialog.tsx
+│   │       │       ├── organization-entry.tsx
+│   │       │       └── update-org-form.tsx
+│   │       ├── organizations/
+│   │       └── users/
+│   ├── (global-api)/           # Global API routes (no auth required)
+│   │   └── api/
+│   │       └── ingest/         # Data ingestion endpoints
+│   │           └── [orgSlug]/
+│   │               ├── live/    # Live timing data ingestion
+│   │               └── results/ # Results data ingestion
 │   ├── (public)/                # Public routes
 │   │   └── page.tsx            # Landing page
-│   └── (tenants)/               # Tenant-scoped routes
-│       └── t/[orgSlug]/
-│           ├── live/            # Live timing system
-│           │   ├── api/        # Data fetching
-│           │   ├── components/ # React components
-│           │   ├── context/    # React Context
-│           │   ├── hooks/      # Custom hooks
-│           │   └── lib/        # Utilities & feature flags
-│           └── page.tsx        # Tenant home page
-├── components/                   # Shared React components
-│   ├── admin/                   # Admin components
-│   ├── library/ui/              # UI component library
-│   └── shared/                  # Shared components
+│   ├── (tenants)/               # Tenant-scoped routes
+│   │   └── t/[orgSlug]/
+│   │       ├── live/            # Live timing system
+│   │       │   ├── data/        # Data fetching utilities
+│   │       │   ├── components/ # Page-specific components
+│   │       │   ├── context/    # React Context
+│   │       │   ├── hooks/      # Custom hooks
+│   │       │   └── lib/        # Utilities & feature flags
+│   │       └── page.tsx        # Tenant home page
+│   └── components/              # App-level shared components
+│       ├── confirmation-dialog.tsx
+│       └── shared/
+│           └── layout/          # Shared layout components
 ├── db/                          # Database
 │   ├── tables/                  # Drizzle table definitions
 │   ├── repositories/            # Data access layer
@@ -89,13 +120,27 @@ src/
 ├── dto/                         # Data Transfer Objects
 ├── services/                    # Business logic
 │   ├── motorsportreg/           # MotorsportReg API service
-│   ├── organizations/           # Organization service
+│   ├── organizations/          # Organization service
+│   │   ├── organization.service.ts
+│   │   └── organization.admin.service.ts  # Admin operations
 │   ├── feature-flags/           # Feature flags service
 │   ├── tenants/                 # Tenant service
 │   └── users/                   # User service
+├── hooks/                       # Custom React hooks
+│   └── admin/
+│       └── use-api-key-actions.ts  # API key management hook
 ├── lib/                         # Shared utilities
 └── context/                     # React Context providers
 ```
+
+#### Architecture Principles
+
+- **Page-Centric**: Components are organized near the pages that use them
+  - Admin components: `app/(global-admin)/admin/components/`
+  - Live timing components: `app/(tenants)/t/[orgSlug]/live/components/`
+  - App-level shared: `app/components/shared/`
+- **Design System at Top Level**: All reusable UI components in `/src/ui/`
+- **Import Paths**: Use `@/ui/*` for design system, `@/app/*` for page components
 
 ### Multi-Tenancy Architecture
 
@@ -113,6 +158,7 @@ src/
 - **Tenant routes**: `/t/[orgSlug]/*`
 - **Tenant admin**: `/t/[orgSlug]/admin/*`
 - **Global admin**: `/(global-admin)/admin/*`
+- **Global API**: `/(global-api)/api/*` - Public API endpoints for data ingestion
 - **Route guards**: Enforced in `layout.tsx` files
 
 ## 🚀 Getting Started
@@ -224,6 +270,16 @@ src/
    - **Enable Work/Run Order** - Shows Work/Run navigation and assignments
 4. Click "Save" to apply changes
 
+#### Managing API Keys
+1. Navigate to global admin: `/(global-admin)/admin/organizations/[slug]`
+2. Scroll to the "API Keys" section
+3. **Generate New Key**: Creates a new API key and disables the previous one
+4. **Disable Access**: Generates a new disabled key, revoking API access
+5. **View History**: See all previous API keys for the organization
+6. **Copy Key**: Click the copy button to copy the current API key to clipboard
+
+**Note**: Only the most recent API key is active. Generating a new key automatically disables the previous one.
+
 ## 🔧 Development
 
 ### Scripts
@@ -252,6 +308,10 @@ pnpm seed             # Seed database with sample data
 
 ### Architecture Guidelines
 
+- **Page-Centric Structure**: Organize components near the pages that use them
+  - Page-specific components live alongside their pages
+  - Shared components at app level: `app/components/shared/`
+  - Design system components at top level: `ui/`
 - **Server Components by Default**: Prefer server components
 - **Client Components When Necessary**: Only use `"use client"` when needed
 - **Isolated Computation**: Heavy computation (scoring, parsing) isolated from request/response
@@ -259,6 +319,10 @@ pnpm seed             # Seed database with sample data
 - **Explicit Types**: Clear, explicit TypeScript types
 - **No Magic Globals**: Avoid global state inference
 - **Tenant Context**: Always passed via headers, never inferred from URL
+- **Import Conventions**:
+  - Design system: `@/ui/*`
+  - Page components: `@/app/(route-group)/path/components/*`
+  - Shared components: `@/app/components/shared/*`
 
 ### Database
 
@@ -276,6 +340,7 @@ pnpm drizzle-kit push
 - **Users** (`users`): User accounts
 - **Roles** (`roles`): User roles and permissions
 - **Feature Flags** (`feature_flags`): Organization-level feature toggles
+- **Organization API Keys** (`org_api_keys`): API keys for organization authentication
 
 ## 🔌 API Integration
 
@@ -300,6 +365,47 @@ See [MotorsportReg Service README](./src/services/motorsportreg/README.md) for f
 Live timing data is fetched from external API endpoints configured in:
 - `src/app/(tenants)/t/[orgSlug]/live/lib/config.ts`
 
+### Organization API
+
+Organizations can access their data via API using API keys:
+
+#### Authentication
+API requests must include a valid API key in the request header:
+```
+Authorization: Bearer <api-key>
+```
+
+#### API Key Validation
+The platform validates API keys by:
+- Checking the organization slug matches the key
+- Verifying the key is the most recent (enabled) key for the organization
+- Ensuring the key is enabled
+
+See `src/db/repositories/organizations.api.repo.ts` for validation logic.
+
+### Data Ingestion API
+
+The platform provides public API endpoints for ingesting live timing and results data:
+
+#### Endpoints
+- **POST** `/api/ingest/[orgSlug]/live` - Ingest live timing data
+- **POST** `/api/ingest/[orgSlug]/results` - Ingest results data
+
+#### Authentication
+These endpoints are public and do not require authentication. They are designed for external systems to push data into the platform.
+
+#### Usage
+```typescript
+// Example: Ingest live timing data
+const response = await fetch('/api/ingest/my-org/live', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(liveTimingData)
+});
+```
+
+See `src/app/(global-api)/api/ingest/` for implementation details.
+
 ## 🧪 Testing
 
 ### Manual Testing Checklist
@@ -318,6 +424,10 @@ Live timing data is fetched from external API endpoints configured in:
 - [ ] Feature flags correctly show/hide navigation items
 - [ ] Feature flags correctly show/hide PAX statistics
 - [ ] Feature flags persist across page refreshes
+- [ ] API key generation works correctly
+- [ ] API key disable/enable functionality works
+- [ ] API key validation works for API requests
+- [ ] Previous API keys are displayed correctly
 
 ## 📦 Deployment
 

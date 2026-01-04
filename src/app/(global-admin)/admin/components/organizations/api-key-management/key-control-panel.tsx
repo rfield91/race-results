@@ -1,5 +1,5 @@
-import { Button } from "@/components/button/button";
-import { ConfirmationDialog } from "@/components/confimration-dialog";
+import { Button } from "@/ui/button-wrapper";
+import { ConfirmationDialog } from "@/app/components/confirmation-dialog";
 import { RefreshCw, ShieldBan } from "lucide-react";
 
 const ConfirmDisableDialog = ({

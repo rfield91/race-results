@@ -8,7 +8,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/library/ui/alert-dialog";
+} from "@/ui/alert-dialog";
 import React from "react";
 
 type ConfirmationDialogProps = {
