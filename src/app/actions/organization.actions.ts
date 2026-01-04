@@ -3,6 +3,8 @@
 import { Organization } from "@/dto/organizations";
 import { nameof } from "@/lib/utils";
 import { organizationAdminService } from "@/services/organizations/organization.admin.service";
+import { userService } from "@/services/users/user.service";
+import { ROLES } from "@/dto/users";
 import { refresh, revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -76,6 +78,12 @@ export async function updateOrganization(
 
     let slug = null;
 
+    // Verify user has admin permissions
+    const user = await userService.getCurrentUser();
+    if (!user?.roles.includes(ROLES.admin)) {
+        throw new Error("Unauthorized: Admin access required");
+    }
+
     try {
         slug = await organizationAdminService.updateOrganization({
             orgId,
@@ -115,6 +123,12 @@ export async function updateApiKey(
         isEnabled: boolean;
     }
 ) {
+    // Verify user has admin permissions
+    const user = await userService.getCurrentUser();
+    if (!user?.roles.includes(ROLES.admin)) {
+        throw new Error("Unauthorized: Admin access required");
+    }
+
     await organizationAdminService.createApiKey(orgId, options.isEnabled);
 
     refresh();

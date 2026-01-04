@@ -11,6 +11,7 @@ export class OrganizationsAPIRepository implements IOrganizationsAPIRepository {
             WITH Ordered AS (
             SELECT
                 api_key,
+                api_key_enabled,
                 ROW_NUMBER() OVER (ORDER BY effective_at DESC) as row_num
             FROM public.org_api_keys as apiKey
             INNER JOIN public.orgs as org
@@ -24,7 +25,8 @@ export class OrganizationsAPIRepository implements IOrganizationsAPIRepository {
             FROM Ordered
             WHERE
                 row_num = 1
-            AND api_key = ${apiKey}`);
+            AND api_key = ${apiKey}
+            AND api_key_enabled = true`);
 
         if (result.rowCount == 1) {
             return true;
